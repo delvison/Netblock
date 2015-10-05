@@ -99,7 +99,7 @@ def get_gateway_ip(gateway_ip=None):
   ip_range = '.'.join(ip_list)
   del ip_list[-1]
   ip_list.append('1')# assumed default gateway is "XXX.XXX.XXX.1"
-  if gateway_ip is None:
+  if gateway_ip is not None:
     print "Gateway IP provided as "+gateway_ip
     return [gateway_ip, ip_range]
   else:
@@ -125,7 +125,10 @@ def print_menu(gateway_ip,ip_range):
       if device[0] == gateway_ip:
         gateway_mac = device[1]
       else:
-          print ERROR+"Gateway IP does not end in XXX.XXX.XXX.1. Alter script"
+          print ERROR+'Gateway not found. Either Netblock can not affect your '+\
+          'router or you have to specify the gateway like so: '+\
+          'netblock -g XXX.XXX.XXX.XXX. Try using an arp command to find the ip '+\
+          'to your gateway'
           exit()
       i+=1
 
