@@ -7,8 +7,6 @@ one, multiple, or all victims on the same network.
 
 #How to use#
 
-NOTE: The python library scapy must be installed in order to use Netblock.
-
 Netblock runs in CLI. Install the script by executing:
 
 				sudo sh install.sh
@@ -50,3 +48,5 @@ To block a victim simply type in the number of their IP seen in the list.
 To unblock a victim simply type the number of their IP seen in the list.
 
 Blocked victims can be seen towards the bottom in a list.
+
+NOTE: The python library scapy must be installed in order to use Netblock.
