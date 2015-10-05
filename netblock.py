@@ -73,7 +73,7 @@ def check_for_root():
     Checks that the script was executed under the status of a superuser.
     """
     if os.geteuid() != 0:
-      print "You need to run the script as a superuser."
+      print ERROR+"You need to run the script as a superuser."
       exit()
 
 def get_blocked_victims(victims):
