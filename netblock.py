@@ -90,7 +90,7 @@ def get_blocked_victims(victims):
     return vics+"]"+ENDC
 
 
-def get_gateway_ip():
+def get_gateway_ip(gateway_ip=None):
   # Gets the gateway ip. Returns [gateway_ip, ip_range]
   myip = get_lan_ip()
   ip_list = myip.split('.')
@@ -99,7 +99,11 @@ def get_gateway_ip():
   ip_range = '.'.join(ip_list)
   del ip_list[-1]
   ip_list.append('1')# assumed default gateway is "XXX.XXX.XXX.1"
-  return ['.'.join(ip_list), ip_range]
+  if gateway_ip is None:
+    print "Gateway IP provided as "+gateway_ip
+    return [gateway_ip, ip_range]
+  else:
+    return ['.'.join(ip_list), ip_range]
 
 
 def print_menu(gateway_ip,ip_range):
@@ -107,6 +111,7 @@ def print_menu(gateway_ip,ip_range):
     Get a list of devices and print them to the screen
     """
     global devices
+    global gateway_mac
     devices = get_ip_macs(ip_range)
     printdiv()
     print "Connected ips:"
@@ -119,6 +124,9 @@ def print_menu(gateway_ip,ip_range):
       # See if we have the gateway MAC
       if device[0] == gateway_ip:
         gateway_mac = device[1]
+      else:
+          print ERROR+"Gateway IP does not end in XXX.XXX.XXX.1. Alter script"
+          exit()
       i+=1
 
     printdiv()
@@ -127,7 +135,10 @@ def print_menu(gateway_ip,ip_range):
     if gateway_mac != '12:34:56:78:9A:BC':
       print "Gateway mac: %s" % gateway_mac
     else:
-      print 'Gateway not found. Script will be UNABLE TO RESTORE WIFI once shutdown is over'
+      print ERROR+'Gateway not found. Either Netblock can not affect your '+\
+      'router or you have to specify the gateway like so: '+\
+      'netblock -g XXX.XXX.XXX.XXX. Try using an arp command to find the ip '+\
+      'to your gateway'
     printdiv()
 
     print "Who do you want to block? (Select victim in blocked list to unblock)"
@@ -215,11 +226,16 @@ def cleanup():
 
 
 if __name__=="__main__":
+
     # Check for root
     check_for_root()
 
+
     # Search for targets every time we refresh
-    gateway_ip, ip_range = get_gateway_ip()
+    if len(sys.argv) >=2 and sys.argv[1] == '-g':
+        gateway_ip, ip_range = get_gateway_ip(gateway_ip=sys.argv[2])
+    else:
+        gateway_ip, ip_range = get_gateway_ip()
 
     # enter poisoning loop
     poisoning_loop(gateway_ip,ip_range)
