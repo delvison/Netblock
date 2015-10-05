@@ -103,6 +103,7 @@ def get_gateway_ip(gateway_ip=None):
     print "Gateway IP provided as "+gateway_ip
     return [gateway_ip, ip_range]
   else:
+    print "Gateway IP provided as "+'.'.join(ip_list)
     return ['.'.join(ip_list), ip_range]
 
 
@@ -124,12 +125,12 @@ def print_menu(gateway_ip,ip_range):
       # See if we have the gateway MAC
       if device[0] == gateway_ip:
         gateway_mac = device[1]
-      else:
-          print ERROR+'Gateway '+gateway_ip+' not found. Either Netblock can'+\
-          'not affect your router or you have to specify the gateway like so: '+\
-          'netblock -g XXX.XXX.XXX.XXX. Try using an arp command to find the ip '+\
-          'to your gateway'
-          exit()
+      # else:
+      #     print ERROR+'Gateway '+gateway_ip+' not found. Either Netblock can'+\
+      #     'not affect your router or you have to specify the gateway like so: '+\
+      #     'netblock -g XXX.XXX.XXX.XXX. Try using an arp command to find the ip '+\
+      #     'to your gateway. GATEWAY MAC NOT FOUND.'
+      #     exit()
       i+=1
 
     printdiv()
