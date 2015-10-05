@@ -125,8 +125,8 @@ def print_menu(gateway_ip,ip_range):
       if device[0] == gateway_ip:
         gateway_mac = device[1]
       else:
-          print ERROR+'Gateway not found. Either Netblock can not affect your '+\
-          'router or you have to specify the gateway like so: '+\
+          print ERROR+'Gateway '+gateway_ip+' not found. Either Netblock can'+\
+          'not affect your router or you have to specify the gateway like so: '+\
           'netblock -g XXX.XXX.XXX.XXX. Try using an arp command to find the ip '+\
           'to your gateway'
           exit()
